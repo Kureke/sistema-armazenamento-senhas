@@ -1,3 +1,8 @@
+-- Cria o banco de dados
+CREATE DATABASE armazena_senha CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+use armazena_senha;
+
+-- Cria as tabelas
 -- Tabela Usuario
 CREATE TABLE usuario (
     usu_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,

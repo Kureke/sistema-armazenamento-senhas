@@ -1,3 +1,8 @@
+-- Cria o banco de dados
+CREATE DATABASE armazena_senha WITH ENCODING 'UTF8';
+\c armazena_senha
+
+--Cria as tabelas. Garanta que o banco de dados está criado antes de continuar.
 -- Tabela Usuario
 CREATE TABLE usuario (
     usu_id SERIAL PRIMARY KEY NOT NULL,
