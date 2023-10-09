@@ -38,3 +38,4 @@ Este projeto será de licença livre.
 ---
 
 © 2023 Luis Henrique Kureke
+© 2023 Guilherme M
