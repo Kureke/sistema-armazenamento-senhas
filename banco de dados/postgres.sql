@@ -11,6 +11,7 @@ CREATE TABLE usuario (
     usu_nome VARCHAR(50) NOT NULL DEFAULT '',
     usu_senha VARCHAR(150) NOT NULL DEFAULT '',
     gru_id INT DEFAULT 0 NOT NULL,
+    usu_externo INT DEFAULT 0 NOT NULL,
     usu_status INT DEFAULT 0 NOT NULL
 );
 

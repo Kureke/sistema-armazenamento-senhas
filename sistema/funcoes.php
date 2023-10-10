@@ -40,7 +40,8 @@ require_once './configuracao.php';
 global $variaveis;
 $variaveis = array(
     'acao', //variaveis básicas
-    'usu_login', 'usu_senha', 'usu_nome', 'usu_status' //variaveis de usuário
+    'usu_id', 'usu_login', 'usu_senha', 'usu_nome', 'usu_externo', 'usu_status', //variaveis de usuário
+    'gru_id', 'usu_nome', 'gru_status' //variaveis do grupo
 );
 
 //Inicializa as variaveis padroes com valor zerado, ou recebendo do metodo post; e valida contra ataques sql injection ------------------
@@ -93,7 +94,10 @@ function validaVariavel($variavel, $valor){
     if($variavel == 'acao' && preg_match("/^[a-zA-Z]*$/", $valor))
         return (array('resposta' => 0, 'mensagem'=>'A ação informada não é válida.'));
 
-    //campos de usuário
+    //usuário
+    if($variavel == 'usu_id' && !is_int($valor))
+        return (array('resposta' => 0, 'mensagem'=>'O usuário informado não é válido.'));
+
     if($variavel == 'usu_nome' && preg_match("/^[a-zA-Z]*$/", $valor))
         return (array('resposta' => 0, 'mensagem'=>'O nome do usuário possuí caracteres inválidos.'));
     
@@ -103,11 +107,60 @@ function validaVariavel($variavel, $valor){
     if($variavel == 'usu_senha' && strlen($valor) < 8 && strlen($valor) > 30)
         return (array('resposta' => 0, 'mensagem'=>'A senha informada deverá possuir entre 8 e 30 caracteres.'));
     
-    if($variavel == 'usu_status' && ( $valor != 1 || $valor != 2))
+    if($variavel == 'usu_externo' && ( $valor != 1 || $valor != 0))
+        return (array('resposta' => 0, 'mensagem'=>'A informação sobre o acesso externo do usuário não é válida.'));
+    
+    if($variavel == 'usu_status' && ( $valor != 1 || $valor != 0))
         return (array('resposta' => 0, 'mensagem'=>'O status do usuário informado não é válido.'));
+
+    //grupo
+    if($variavel == 'gru_id' && !is_int($valor))
+        return (array('resposta' => 0, 'mensagem'=>'O grupo informado não é válido.'));
+
+    if($variavel == 'gru_nome' &&  strlen($valor) < 1 && strlen($valor) > 50)
+        return (array('resposta' => 0, 'mensagem'=>'Escolha um nome para o grupo.'));
+
+    if($variavel == 'gru_status' && ( $valor != 1 || $valor != 0))
+        return (array('resposta' => 0, 'mensagem'=>'O status do grupo informado não é válido.'));
 
     //se passou pelas validações, retorno positivo
     array('resposta' => 1, 'mensagem'=>'Validação OK.');
+
+}
+
+//Geração do token de acesso
+function geraToken($usu_login='', $usu_senha=''){
+
+    //encerra sessões ativas
+    unset($_SESSION['hash_senha_segura']);
+
+    #colocar aqui as validações do login...
+
+    //gera hash da sessão
+    $_SESSION['hash_senha_segura']['token'] = getHashToken($usu_login);
+
+    //carrega os valores da sessão
+    $_SESSION['hash_senha_segura']['usu_login'] = $usu_login;
+
+     //ids dos grupos do usuário
+     #colocar aqui a consulta dos grupos ...
+    $_SESSION['hash_senha_segura']['grupos'] = array(1,5,3);
+
+    //retorna
+    return array('resposta' => 1, 'mensagem'=>'Acesso concedido.');
+
+}
+
+//validação do token de acesso
+function validaToken(){
+
+    if(!isset($_SESSION['hash_senha_segura']['token']) || !isset($_SESSION['hash_senha_segura']['usu_login']))
+        return array('resposta' => 0, 'mensagem'=>'Acesso negado.');
+
+    if($_SESSION['hash_senha_segura']['token'] != getHashToken($_SESSION['hash_senha_segura']['usu_login'])) 
+        return array('resposta' => 0, 'mensagem'=>'Acesso negado.');
+    
+    return array('resposta' => 1, 'mensagem'=>'Acesso autorizado.');
 
 }
 

@@ -12,8 +12,8 @@ Este projeto está em suas fases iniciais. Ele visa criar um sistema de armazena
 
 ## Funcionalidades Planejadas
 - Armazenamento seguro de senhas.
-- Controle de acesso por usuários.
-- Categorização de senhas por grupos.
+- Controle de acesso por usuários e grupos.
+- Categorização e acesso de senhas por grupos.
 
 ## Tecnologias Propostas
 - HTML
@@ -29,11 +29,11 @@ Este projeto está em suas fases iniciais. Ele visa criar um sistema de armazena
 A instalação detalhada será fornecida em breve. Algumas etapas antecipadas incluem:
 1. Clonagem do repositório.
 2. Criação da base de dados a partir dos arquivos `postgres.sql` ou `mysql.sql`.
-3. Ajustes no arquivo `config.php`.
+3. Ajustes no arquivo `configuracao.php`.
 
 ## Licença
 
-Este projeto será de licença livre.
+Este projeto será de licença livre. É de sua responabilidade validar o código e o ambiente onde será utilizado.
 
 ---
 
